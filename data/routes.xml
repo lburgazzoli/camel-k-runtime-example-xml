@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://camel.apache.org/schema/spring"
+        xsi:schemaLocation="
+        http://camel.apache.org/schema/spring
+        http://camel.apache.org/schema/spring/camel-spring.xsd">
+    <route>
+        <from uri="timer:timer"/>
+        <setBody>
+            <constant>
+                {
+                    "GTIN":"4001724819004",
+                    "ProductNo":"GSIN43062860077950",
+                    "ArticleNo":"430628600779500001",
+                    "StoreID":"12",
+                    "PartnerID":"METRO",
+                    "PriceType":"AKT_B2C",
+                    "ValidFrom":"28.03.2019",
+                    "ValidTo":"03.04.2019",
+                    "Price":"1,70",
+                    "Currency":"EUR",
+                    "VAT":"7",
+                    "BasePrice":"0,53",
+                    "BasePriceUnit":"g",
+                    "BasePriceAmount":"100",
+                    "Active":"1",
+                    "Updated":"02.07.2020",
+                    "BaseAmount":"1",
+                    "ValidPromoPrice":"",
+                    "PurchasePrice":"1,59"
+                }
+            </constant>
+        </setBody>
+        <setBody>
+            <groovy>
+                response = new groovy.json.JsonSlurper().parseText(request.body).with { json ->
+                    new groovy.xml.StreamingMarkupBuilder().bind {
+                        article {
+                            gtin(json.GTIN)
+                            productNumber(json.ProductNo)
+                            articleNumber(json.ArticleNo)
+                            storeId(json.StoreID)
+                            price(json.Price)
+                        }
+                    }.toString()
+                }
+            </groovy>
+        </setBody>
+        <to uri="log:info"/>
+    </route>
+</routes>
