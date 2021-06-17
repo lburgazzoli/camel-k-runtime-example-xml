@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.lburgazzoli</groupId>
     <artifactId>camel-k-runtime-example-yaml</artifactId>
-    <version>1.6.0</version>
+    <version>1.9.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -136,10 +136,6 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
-        <repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
@@ -152,10 +148,6 @@
                 <enabled>false</enabled>
             </releases>
         </pluginRepository>
-        <pluginRepository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</pluginRepository>
     </pluginRepositories>
 
 </project>
